@@ -1,6 +1,6 @@
 import tkinter.messagebox #import message box from tkinter
 from PIL import Image #Import Pillow For Image Manuipilation
-import os #import OS to clear terminal
+import termcolor
 import tkinter as t #import tkinter for GUI
 def encodegui():#IMG To ASCII ART .Txt
     def continu(sh):#func to continue
@@ -36,7 +36,16 @@ def encode(tew,climode):#Image To Txt ASCII ART FUNCTION
             asciiart.append("#")#put # for white
         count +=1#Add to counter (progress)
         w += 1#Go to next pixel in the row
-        print(f"\rPROGRESS {count}/{len(pixels)} [{(int((count/len(pixels))*100000))/1000}%]",end="",flush=True)#Show the progress to the user
+        amt = int((count/len(pixels))*50)#Amont of green in the progress bar
+        arrow = ["["]#start if the progress bar
+        for i in range(amt-1):#make the green line
+            arrow.append(termcolor.colored("-","green"))#add the green line
+        arrow.append(termcolor.colored(">","green"))#and a header (arrow)
+        for i in range(50-amt):#rest of the bar (in white)
+            arrow.append("-")#add it 
+        arrow.append("]")#add the ending
+        arrow = ''.join(arrow) # amke into 1 string
+        print(f"\rPROGRESS {arrow} [{count}/{len(pixels)}] [{(int((count/len(pixels))*100000))/1000}%]",end="",flush=True)#Show the progress to the user
     result = ''.join(asciiart)#Make the ASCIIART list into a string
     with open("output.txt", "w") as f:#Open or make a file called output.txt
         f.write(str(result))#Save the ASCIIART to the file
